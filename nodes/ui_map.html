@@ -1,0 +1,72 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ui_map',{
+        category: 'dashboard',
+        color: 'rgb(119, 198, 204)',
+        defaults: {
+            group: {type: 'ui_group', required:true},
+            order: {value: 0},
+            width: {value: 0, validate: function(v) {
+                    var width = v||0;
+                    var currentGroup = $('#node-input-group').val()||this.group;
+                    var groupNode = RED.nodes.node(currentGroup);
+                    var valid = !groupNode || +width <= +groupNode.width;
+                    $("#node-input-size").toggleClass("input-error",!valid);
+                    return valid;
+                }
+            },
+            height: {value: 0},
+            name: {value: ''},
+            label: {value: 'map'},
+            tileUrl: {value: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'},
+            attribution: {value: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}
+        },
+        inputs:1,
+        outputs:0,
+        align: "right",
+        icon: "ui_map.png",
+        paletteLabel: 'map',
+        label: function() { return this.name || (~this.label.indexOf("{{") ? null : this.label) || 'map'; },
+        oneditprepare: function() {
+            $("#node-input-size").elementSizer({
+                width: "#node-input-width",
+                height: "#node-input-height",
+                group: "#node-input-group"
+            });
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ui_map">
+    <div class="form-row">
+        <label for="node-input-group"><i class="fa fa-table"></i> Group</label>
+        <input type="text" id="node-input-group">
+    </div>
+    <div class="form-row">
+        <label><i class="fa fa-object-group"></i> Size</label>
+        <input type="hidden" id="node-input-width">
+        <input type="hidden" id="node-input-height">
+        <button class="editor-button" id="node-input-size"></button>
+    </div>
+    <div class="form-row">
+        <label for="node-input-label"><i class="fa fa-i-cursor"></i> Label</label>
+        <input type="text" id="node-input-label">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name">
+    </div>
+
+
+</script>
+
+<style>
+</style>
+<script type="text/x-red" data-help-name="ui_map">
+    <p>Will display a map with a marker and its' route on the user interface.</p>
+    <p>Each received <code>msg.payload</code> will update the map based on the provided lat/lng.</p>
+    <p>Payload will be interpreted as latitude and longitude pair when it is object with <code>lat</code> and <code>lng</code> or array of length 2, where first element is latitude and second is longitude.</p>
+    <p>Examples of valid payload:
+            <pre>{"lat": 53.1231595, "lng": 18.00187}</pre>
+            <pre>[53.1231595, 18.00187]</pre>
+    </p>
+</script>

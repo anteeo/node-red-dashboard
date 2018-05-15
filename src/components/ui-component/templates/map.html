@@ -1,0 +1,6 @@
+<md-card ui-card-size="{{ me.item.width }}x{{ me.item.height }}" class="nr-dashboard-map" ng-class="{'nr-dashboard-disabled':me.item.disabled}">
+    <h3 ng-show="me.item.getLabel()">{{me.item.getLabel()}}</h3>
+    <div ui-map="me.item.id">
+        Initializing map...
+    </div>
+</md-card>

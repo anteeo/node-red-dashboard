@@ -1,0 +1,10 @@
+.nr-dashboard-map {
+	padding: 8px 12px;
+	overflow-y: auto;
+    vertical-align: inherit;
+}
+
+.nr-dashboard-map > div {
+    width: 100%;
+    height: 100%;
+}
