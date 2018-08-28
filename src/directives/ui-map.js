@@ -22,6 +22,7 @@ angular.module('ui').directive('uiMap', ['$timeout', function ($timeout) {
 
                 if (currentValue.length > 0) {
                     polyline.addLatLng(currentValue);
+                    marker.setLatLng(currentValue);
 
                     if (map !== null) {
                         if (!map.hasLayer(marker)) {
@@ -33,7 +34,6 @@ angular.module('ui').directive('uiMap', ['$timeout', function ($timeout) {
                             polyline.addTo(map);
                         }
                         // Change marker position and pan zoom to its' new location
-                        marker.setLatLng(currentValue);
                         map.panTo(currentValue);
                     }
                 }
